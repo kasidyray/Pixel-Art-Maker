@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(function () {
   //Set grid current color to #000
   const theGrid = $("#pixelCanvas");
   let currentColor = "#000";
