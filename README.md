@@ -9,6 +9,6 @@
 • Start over.
 
 
-Here is the link to the github page https://kasidyray.github.com/pixel-art-maker
+Here is the link to the github page https://kasidyray.github.io/pixel-art-maker
 
 Thanks
