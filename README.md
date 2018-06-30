@@ -7,3 +7,8 @@
 • Double click a cell to set it's color back to white;<br>
 • Press reset button to clear the grid;<br>
 • Start over.
+
+
+Here is the link to the github page https://gideonadegbesan.github.io/pixel-art-maker
+
+Thanks
