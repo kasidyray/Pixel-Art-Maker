@@ -1,42 +1,82 @@
-let height, width, color, reset;
-function makeGrid() {
-    $("#pixel_canvas").html("");
-    height = $("#input_height").val();
-    width = $("#input_width").val();
-    if (height > 50 || width > 50 || height < 1 || width < 1) {
-        if (!error.classList.contains("error")) {
-            error.classList.toggle("error");
-            error.innerText = "the dimension has to be smaller than 50 and bigger than 0";
-            backUp();
-        }
-    } else {
-        error.innerText = "";
-        $("div").removeClass("error");
-        for (let x = 0; x < height; x++) {
-            $('#pixel_canvas').append('<tr></tr>');
-        }
-        for (let y = 0; y < width; y++) {
-            $('#pixel_canvas tr').each(function () {
-                $(this).append('<td></td>');
-            });
-        }
+$(document).ready(function() {
+  //Set grid current color to #000
+  const theGrid = $("#pixelCanvas");
+  let currentColor = "#000";
+
+  // Prevent default submit event behaviour
+  $("#sizePicker").submit(function(e) {
+    e.preventDefault();
+    makeGrid();
+    changeColor();
+    addColor();
+    removeGridColorOnDoubleClick()
+    clearColor();
+    clearGrid();
+  });
+
+  //Make grid function
+  function makeGrid() {
+    //Set the grid dimensions;
+    let gridHeight = $("#inputHeight").val();
+    let gridWidth = $("#inputWidth").val();
+    theGrid.empty(); //Empty the grid and start over
+
+    //Create rows
+    for (let rows = 0; rows <= gridHeight - 1; rows++) {
+      theGrid.append("<tr>"); //Start Row
+
+      //Create columns for each row
+      for (let columns = 0; columns <= gridWidth - 1; columns++) {
+        $("tr").filter(":last").append("<td></td>");
+      }
+      theGrid.append("</tr>"); //End Row
     }
-}
-color = $('#colorPicker');
-$(document).on("mousedown", "tr td", function () {
-    let colorValue = color.val();
-    $(this).css('background-color', colorValue);
-    $('tr td').bind("mousemove", function () {
-        let colorValue = color.val();
-        $(this).css('background-color', colorValue);
-    }).mouseup(function() {
-        $('td').unbind('mousemove');
+	
+  }
+  makeGrid();
+
+  //Change the currentColor to the selected one
+  function changeColor() {
+    $("#colorPicker").change(function() {
+      currentColor = $(this).val();
     });
-    $('tr td').on('dblclick',function () {
-        $(this).css('background-color', "#FFFFFF")
-    })
+  }
+  changesColor();
+  
+//Fill grid with color
+  function addColor() {
+    theGrid.on("click", "td", function(e) {
+      $(this).css("background-color", currentColor);
+    });
+  }
+  addColor();
+
+  //Remove color from grid on double-click
+  function removeGridColorOnDoubleClick() {
+    theGrid.on("dblclick", "td", function(e) {
+      $(this).css("background-color", "");
+    });
+  }
+  removeGridColorOnDoubleClick();
+
+  //clear all colored grid
+  function clearColor() {
+    let clear = $("#clearColor");
+    let targetCell = $("td");
+    clear.on("click", function() {
+      targetCell.removeAttr("style");
+    });
+  }
+  clearColor();
+
+  //clear all grid  
+  function clearGrid() {
+    let clearButton = $("#clearGrid");
+    let actualgrid = $("tr");
+    clearButton.on("click", function(){
+      actualgrid.remove();
+    });
+  }
+  clearGrid();
+
 });
-reset = $("#pixel_canvas").html();
-function backUp() {
-    $("#pixel_canvas").html(reset);
-}
